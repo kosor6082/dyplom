@@ -1,0 +1,56 @@
+﻿@model ElectronicJournal.Models.Lesson
+
+@{
+    ViewData["Title"] = "Видалення пари";
+}
+
+<h2>Видалення пари</h2>
+
+<h3>Ви впевнені, що хочете видалити пару?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <p>Дисципліна</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Subject.SubjectName)
+        </dd>
+        <dt>
+            <p>Аудиторія</p>
+            @*@Html.DisplayNameFor(model => model.Classroom)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Classroom)
+        </dd>
+        <dt>
+            <p>Тип заняття</p>
+            @*@Html.DisplayNameFor(model => model.Type)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt>
+            <p>Номер пари</p>
+            @*@Html.DisplayNameFor(model => model.NumberLesson)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberLesson)
+        </dd>
+        <dt>
+            <p>Дата</p>
+            @*@Html.DisplayNameFor(model => model.Date)*@
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="ID" />
+        <input type="submit" value="Видалити" class="btn btn-default" /> |
+        <a asp-action="Index">Назад до списку</a>
+    </form>
+</div>

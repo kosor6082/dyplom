@@ -1,0 +1,164 @@
+﻿@model ElectronicJournal.ViewModels.PaperViewModel
+
+@{
+    ViewData["Title"] = "Перегляд";
+}
+
+<style>
+    .heads {
+        color: royalblue
+    }
+
+    .formButtons {
+        position: relative;
+    }
+
+    table {
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+
+        table td.vertical {
+            height: 300px;
+            white-space: nowrap;
+        }
+
+    .vertical-text {
+        transform: translate(10px, 145px) rotate(-90deg);
+        width: 30px;
+    }
+
+    p.vertical {
+        padding: 5px 10px;
+    }
+</style>
+
+<h1>Тиждень @ViewBag.numberOfWeek</h1>
+
+@{
+    var culture = new System.Globalization.CultureInfo("uk-UA");
+    List<string> classrooms = new List<string>();
+    List<DateTime> dates = new List<DateTime>();
+}
+
+<table class="table-bordered table-hover table-striped table-condensed">
+    <thead>
+        <tr>
+            <td width="30px" style="border-right-style:hidden; min-width: 30px;" rowspan="2"></td>
+            <td width="180px" style="border-right-style:hidden; min-width: 180px;" rowspan="2"></td>
+            <td width="90px" style="min-width: 90px;" rowspan="2"></td>
+            @foreach (var day in Model.Lessons.GroupBy(m => m.Date))
+            {
+                @foreach (var item in day)
+                {
+                    classrooms.Add(item.Classroom);
+                    dates.Add(item.Date);
+                    <td class="vertical" rowspan="3">
+                        <div class="vertical-text"><p class="vertical">@Html.DisplayFor(modelItem => item.Subject.SubjectName)</p></div>
+                    </td>
+                    <td class="vertical" rowspan="3">
+                        <div class="vertical-text"><p class="vertical">@Html.DisplayFor(modelItem => item.Subject.Teacher) (@Html.DisplayFor(m => item.Type))</p></div>
+                    </td>
+                }
+            }
+            <td width="120px" colspan="4">Пропущено занять за тиждень(год.)</td>
+        </tr>
+        <tr></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="2">№</td>
+            <td rowspan="2">Прізвища та ініціали студентів</td>
+            <td>Аудиторія</td>
+
+            @foreach (var room in classrooms)
+            {
+                <td colspan="2" align="center">
+                    @room
+                </td>
+            }
+            <td rowspan="2" width="60px">усього</td>
+            <td rowspan="2" width="60px">з непов. причин</td>
+        </tr>
+        <tr>
+            <td>Дата</td>
+            @foreach (var date in dates)
+            {
+                <td colspan="2" align="center">
+                    @culture.DateTimeFormat.GetDayName(date.DayOfWeek) (@date.Day.@date.Month)
+                </td>
+            }
+        </tr>
+        @{
+            int counterMissingsOfWeekWithoutReason = 0;
+            int counterMissingsOfWeek = 0;
+            Lesson lastLesson = null;
+        }
+
+        @for (int i = 0; i < Model.Students.Count; i++)
+        {
+            counterMissingsOfWeekWithoutReason = 0;
+            counterMissingsOfWeek = 0;
+            <tr>
+                <td>
+                    @(i + 1)
+                </td>
+                <td>
+                    @Model.Students[i].LastName @Model.Students[i].Name[0]. @Model.Students[i].Father[0].
+                </td>
+                <td></td>
+                @foreach (var day in Model.Lessons.GroupBy(m => m.Date))
+                {
+                    @foreach (var item in day)
+                    {
+                        var missing = item.Missings.Where(s => s.StudentID == Model.Students[i].ID).FirstOrDefault();
+                        <td colspan="2" align="center">
+                            @switch (missing.IsMissing)
+                            {
+                                case IsMissing.present:
+                                    break;
+
+                                case IsMissing.withoutReason:
+                                    counterMissingsOfWeekWithoutReason++;
+                                    counterMissingsOfWeek++;
+                                    <i>нп</i>
+                                    break;
+
+                                case IsMissing.illness:
+                                    counterMissingsOfWeek++;
+                                    <i>хв</i>
+                                    break;
+                            }
+                        </td>
+                        lastLesson = item;
+                    }
+                }
+                <td>@counterMissingsOfWeek</td>
+                <td>@counterMissingsOfWeekWithoutReason</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+<div class="formButtons" align="center">
+    <h5>Перейти до тижня</h5>
+
+    <form asp-action="IndexPagging">
+        @if (ViewBag.numberOfWeek > 1)
+        {
+            <button class="btn btn-default" asp-route-id="@(ViewBag.numberOfWeek - 1)">Попередній</button>
+        }
+
+
+        @for (int i = 0; i < ViewBag.numWeeks; i++)
+        {
+            <button class="btn btn-default" asp-route-id="@(i + 1)">@(i + 1)</button>
+        }
+
+        @if (ViewBag.numberOfWeek < ViewBag.numWeeks)
+        {
+            <button class="btn btn-default" asp-route-id="@(ViewBag.numberOfWeek + 1)">Наступний</button>
+        }
+    </form>
+</div>

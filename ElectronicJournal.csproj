@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180505202804_MigrateDB4.cs" />
+    <Compile Remove="Migrations\20180505212817_InitialCreate.cs" />
+    <Compile Remove="Migrations\20180505214020_AddLesson.cs" />
+    <Compile Remove="Migrations\20180505214606_InitialLesson.cs" />
+    <Compile Remove="Migrations\20180505215035_DropLesson.cs" />
+    <Compile Remove="Migrations\20180505220258_DropLesson.cs" />
+    <Compile Remove="Migrations\20180505220609_EditLesson.cs" />
+    <Compile Remove="Migrations\20180505220709_EditLesson.cs" />
+    <Compile Remove="Migrations\20180505220758_EditLesson.cs" />
+    <Compile Remove="Migrations\20180506174626_SimpleMissing.cs" />
+    <Compile Remove="Migrations\20180506175357_SimpleMissing.cs" />
+    <Compile Remove="Migrations\20180506175620_SimpleMissing.cs" />
+    <Compile Remove="Migrations\20180517165647_AddedGroups.cs" />
+    <Compile Remove="Migrations\20180517170011_AddedGroups.cs" />
+    <Compile Remove="Migrations\20180517170109_AddedGroups.cs" />
+    <Compile Remove="Migrations\20180517170237_AddedGroups.cs" />
+    <Compile Remove="Migrations\20180517170259_AddedGroups2.cs" />
+    <Compile Remove="Migrations\20180517170554_AddedGroups2.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+    <PackageReference Include="NPOI.Core.Extension" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
+  </ItemGroup>
+
+</Project>

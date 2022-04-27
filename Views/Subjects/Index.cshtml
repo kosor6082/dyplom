@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ElectronicJournal.Models.Subject>
+
+@{
+    ViewData["Title"] = "Дисципліни";
+}
+
+<h2>Список дисциплін</h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                <p>Назва дисципліни</p>
+            </th>
+            <th>
+                <p>Викладач</p>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher)
+                </td>
+                <td>
+                    <a asp-action="Details" class="btn btn-default" asp-route-id="@item.ID"> Деталі </a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+                    {
+                        <a asp-action="Edit" class="btn btn-default" asp-route-id="@item.ID">Редагувати</a>
+                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.ID">Видалити</a>
+                    }        
+                    @*@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.ID">Редагувати  |</a>
+                        <a asp-action="Delete" asp-route-id="@item.ID">Видалити  |</a>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.ID"> Деталі </a>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+{
+    <p>
+        <a asp-action="Create"><h4>Додати дисципліну</h4></a>
+    </p>
+}

@@ -1,0 +1,49 @@
+﻿@model List<ElectronicJournal.Models.Missing>
+
+@{
+    ViewData["Title"] = "Відмітити відсутніх";
+}
+
+<h2>Позначення відсутніх</h2>
+
+<form asp-action="AddMissings">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <p>Ім'я</p>
+                </th>
+                <th>
+                    <p>Присутність</p>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                
+                <tr>
+                    <td width="200px">
+                        <p>@ViewBag.students[i].LastName @ViewBag.students[i].Name[0]. </p>
+                    </td>
+                    
+                    <td>
+                            @Html.DropDownListFor(m => m[i].IsMissing, 
+                                                    Html.GetEnumSelectList<IsMissing>(), 
+                                                    new { @class="form-control", @style= "width:200px;" })
+                    </td>
+                </tr>
+            }
+
+            @{ 
+                Lesson lesson = new Lesson();
+                lesson.ID = ViewBag.lesson.ID;
+            }
+        </tbody>
+    </table>
+    <input class="btn btn-default" type="submit" value="Підтвердити" />
+</form>
+
+

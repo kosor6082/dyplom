@@ -1,0 +1,55 @@
+﻿@model ElectronicJournal.Models.Lesson
+
+@{
+    ViewData["Title"] = "Редагування пари";
+}
+
+<h2>Редагування пари</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <input type="hidden" asp-for="GroupID" />
+            </div>
+            <div class="form-group">
+                <label asp-for="SubjectID" class="control-label">Дисципліна</label>
+                <select asp-for="SubjectID" class="form-control" asp-items="ViewBag.SubjectID"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Classroom" class="control-label">Аудиторія</label>
+                <input asp-for="Classroom" class="form-control" />
+                <span asp-validation-for="Classroom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label">Тип заняття</label>
+                <select asp-for="Type" class="form-control" asp-items="Html.GetEnumSelectList<TypeLesson>()"></select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberLesson" class="control-label">Номер пари</label>
+                <select asp-for="NumberLesson" class="form-control" asp-items="Html.GetEnumSelectList<NumberLesson>()"></select>
+                <span asp-validation-for="NumberLesson" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">Дата</label>
+                <input asp-for="Date" type="datetime" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад до списку</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

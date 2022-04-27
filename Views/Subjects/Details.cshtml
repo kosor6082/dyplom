@@ -1,0 +1,34 @@
+﻿@model ElectronicJournal.Models.Subject
+
+@{
+    ViewData["Title"] = "Деталі дисципліни";
+}
+
+<h2>Дисципліна "@Html.DisplayFor(Model => Model.SubjectName)"</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            <p>Назва дисципліни</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubjectName)
+        </dd>
+        <dt>
+            <p>Викладач</p>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Teacher)
+        </dd>
+    </dl>
+</div>
+<div>
+
+    @if (User.IsInRole("Admin") || User.IsInRole("GroupLeader"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.ID">Редагувати  |</a>
+    }
+    <a asp-action="Index">Назад до списку</a>
+
+</div>
